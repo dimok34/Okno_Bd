@@ -2,21 +2,27 @@ import tkinter as tk
 import psycopg2
 
 def connect_baza(db_name, db_port, db_password, username):
-    conn = psycopg2.connect(dbname=db_name, port=db_port, password=db_password, user=username)
-    return conn
-
+    try:
+        conn = psycopg2.connect(dbname=db_name, port=db_port, password=db_password, user=username)
+        return conn
+    except psycopg2.Error as e:
+        print("Введены неверные данные")
+        return None
 
 def get_baza(conn):
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users")
-    rows = cursor.fetchall()
-    return rows
-
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users")
+        rows = cursor.fetchall()
+        return rows
+    except psycopg2.Error as e:
+        print("Введены неверные данные")
+        return None
 
 def show_data(rows):
-    for row in rows:
-        print(row)
-
+    if rows is not None:
+        for row in rows:
+            print(row)
 
 def start():
     root = tk.Tk()
@@ -41,10 +47,10 @@ def start():
 
     # Кнопка отображения
     show_button = tk.Button(root, text="Получить",
-    command=lambda: show_data(get_baza(connect_baza(db_name_entry.get(),
-                                                        db_port_entry.get(),
-                                                        db_password_entry.get(),
-                                                        username_entry.get()))))
+                            command=lambda: show_data(get_baza(connect_baza(db_name_entry.get(),
+                                                                            db_port_entry.get(),
+                                                                            db_password_entry.get(),
+                                                                            username_entry.get()))))
     show_button.pack()
 
     root.mainloop()
