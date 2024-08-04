@@ -21,8 +21,17 @@ def get_baza(conn):
 
 def show_data(rows):
     if rows is not None:
+        # Создание нового окна для вывода данных
+        data_window = tk.Toplevel()
+        data_window.title("Результаты запроса")
+        data_window.geometry("400x300")
+
+        # Создание виджета Text для вывода данных
+        data_text = tk.Text(data_window)
+        data_text.pack()
+
         for row in rows:
-            print(row)
+            data_text.insert(tk.END, str(row) + "\n")
 
 def start():
     root = tk.Tk()
@@ -54,6 +63,5 @@ def start():
     show_button.pack()
 
     root.mainloop()
-
 
 start()
