@@ -21,12 +21,10 @@ def get_baza(conn):
 
 def show_data(rows):
     if rows is not None:
-        # Создание нового окна для вывода данных
+        # Создание окна
         data_window = tk.Toplevel()
         data_window.title("Результаты запроса")
         data_window.geometry("400x300")
-
-        # Создание виджета Text для вывода данных
         data_text = tk.Text(data_window)
         data_text.pack()
 
